@@ -1,0 +1,22 @@
+{% extends "basefile.html" %} {% block home %}
+<h1 style="text-align: center;">All Contact Us records</h1>{% for i in data %}
+<style>
+    button {
+        background-color: rgb(9, 177, 9);
+        color: white;
+        font-weight: bold;
+    }
+    
+    button:hover {
+        background-color: rgb(9, 177, 9);
+        color: red;
+    }
+</style>
+<div style="background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px; margin: 20px; max-width: 400px; width: 100%; transition: box-shadow 0.3s ease;border: 2px dotted rgb(4, 190, 4);">
+    <div style="font-size: 24px; margin-bottom: 10px; background-color: greenyellow;">ID :{{i.id}}</div>
+    <div style="font-size: 24px; margin-bottom: 10px;">Title :{{i.Title}}</div>
+    <div style="font-size: 16px; color: #666;">Message:{{i.MSG}}</div>
+    <form action="/delete/{{i.id}}" method="POST">
+        <button type="submit">Delete</button> </form>
+</div>
+{% endfor %} {% endblock home %}

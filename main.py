@@ -2,9 +2,9 @@ from flask import Flask,render_template , request,redirect
 # import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
 
-conn = mysql.connector.connect(host = "localhost", username = "root", password = "0121", database = "flaskdata")
+# conn = mysql.connector.connect(host = "localhost", username = "root", password = "0121", database = "flaskdata")
 
-curser = conn.cursor()
+# curser = conn.cursor()
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
@@ -28,6 +28,10 @@ def indexpage():
 @app.route("/contact")
 def contact():
     return render_template("contactus.html")
+@app.route("/services")
+def services():
+    data = contactus.query.all()
+    return render_template("services.html",data=data)
 
 @app.route("/savedata", methods =["post"])
 def savedata():
@@ -42,6 +46,14 @@ def savedata():
       return redirect("/contact")
 
 
+
+
+@app.route("/delete/<int:id>", methods=["POST"])
+def user_delete(id):
+    user = contactus.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect("/services")
 
 if __name__=="__main__":
     app.run(port=1000,debug=True)
