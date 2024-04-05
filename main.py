@@ -33,6 +33,12 @@ def services():
     data = contactus.query.all()
     return render_template("services.html",data=data)
 
+
+@app.route("/update/<int:id>", methods=["POST"])
+def update(id):
+    data = contactus.query.get(id)
+    return render_template("update.html",udata=data)
+
 @app.route("/savedata", methods =["post"])
 def savedata():
     if request.method=="POST" :
@@ -54,6 +60,18 @@ def user_delete(id):
     db.session.delete(user)
     db.session.commit()
     return redirect("/services")
+
+
+@app.route("/updatethis/<int:id>", methods=["POST"])
+def update_this(id):
+   if request.method=="POST" :
+          title=request.form.get("title")
+          msg=request.form.get("msg")
+          user = contactus.query.get(id)
+          user.Title=title
+          user.MSG=msg
+          db.session.commit()
+          return redirect("/services")
 
 if __name__=="__main__":
     app.run(port=1000,debug=True)

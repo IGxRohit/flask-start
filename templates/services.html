@@ -18,5 +18,8 @@
     <div style="font-size: 16px; color: #666;">Message:{{i.MSG}}</div>
     <form action="/delete/{{i.id}}" method="POST">
         <button type="submit">Delete</button> </form>
+
+    <form action="/update/{{i.id}}" method="POST">
+        <button type="submit">Update</button> </form>
 </div>
 {% endfor %} {% endblock home %}

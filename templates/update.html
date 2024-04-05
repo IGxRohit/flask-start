@@ -1,0 +1,36 @@
+{% extends "basefile.html" %} {% block home %}
+
+<style>
+    label {
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    
+    form {
+        justify-content: center;
+        margin-left: 20PX;
+    }
+    
+    input {
+        border-radius: 10%;
+    }
+</style>
+<div>
+    <h1 style="text-align: center;">Update Pet Information</h1>
+    <form action="/updatethis/{{udata.id}}" method="post">
+        <div>
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" value="{{udata.Title}}" required><br>
+        </div>
+        <div>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="msg" rows="4" cols="50" required>{{udata.MSG}}</textarea><br>
+        </div>
+        <button style="font-size: 20px;color:rgb(9, 163, 9);font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" type="submit">Submit</button>
+    </form>
+</div>
+
+
+
+{% endblock home %}
