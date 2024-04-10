@@ -1,6 +1,12 @@
 from flask import Flask,render_template , request,redirect
 # import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
+
+
+
+
+
 
 # conn = mysql.connector.connect(host = "localhost", username = "root", password = "0121", database = "flaskdata")
 
@@ -9,6 +15,20 @@ from flask_sqlalchemy import SQLAlchemy
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db=SQLAlchemy(app)
+
+
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'creative07vibez@gmail.com'
+app.config['MAIL_PASSWORD'] = 'mvoc yrpg bkzq erii'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app) 
+
+
+
+
 
 class contactus(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -47,6 +67,9 @@ def savedata():
       data=contactus(Title=title,MSG=msg)
       db.session.add(data)
       db.session.commit()
+      msg = Message(subject='Hello from the other side!', sender='creative07vibez@gmail.com', recipients=['rohitpatial121@gmail.com'])
+      msg.body = "Hey Rohit, sending you this email from my Flask app, lmk if it works"
+      mail.send(msg)
     #   curser.execute(f"insert into pets values('{title}', '{msg}')")
     #   conn.commit()
       return redirect("/contact")
@@ -57,6 +80,7 @@ def savedata():
 @app.route("/delete/<int:id>", methods=["POST"])
 def user_delete(id):
     user = contactus.query.get(id)
+    # user = contactus.query.filter_by(id=x).first()
     db.session.delete(user)
     db.session.commit()
     return redirect("/services")
