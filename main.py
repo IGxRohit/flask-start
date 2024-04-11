@@ -1,7 +1,8 @@
-from flask import Flask,render_template , request,redirect
+from flask import Flask,render_template , request,redirect,flash
 # import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
+import os
 
 
 
@@ -13,10 +14,11 @@ from flask_mail import Mail, Message
 # curser = conn.cursor()
 
 app=Flask(__name__)
+app.secret_key = "askdjaskdbkjasbdkjbasdbasdbasjkbaskbsabdsajdbjkasbdakjdb"
+
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db=SQLAlchemy(app)
-
-
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -30,10 +32,12 @@ mail = Mail(app)
 
 
 
+
 class contactus(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     Title=db.Column(db.String(120))
     MSG=db.Column(db.Text)
+    myimage = db.Column(db.String(255))
 with app.app_context():
  db.create_all()
 
@@ -64,7 +68,13 @@ def savedata():
     if request.method=="POST" :
       title=request.form.get("title")
       msg=request.form.get("msg")
-      data=contactus(Title=title,MSG=msg)
+      myimg=request.files.get("img")
+      if myimg:
+        myimg.save(os.path.join("static/images", myimg.filename))
+        path = os.path.join("static/images", myimg.filename)
+
+
+      data=contactus(Title=title,MSG=msg, myimage = path)
       db.session.add(data)
       db.session.commit()
       msg = Message(subject='Hello from the other side!', sender='creative07vibez@gmail.com', recipients=['rohitpatial121@gmail.com'])
@@ -72,6 +82,8 @@ def savedata():
       mail.send(msg)
     #   curser.execute(f"insert into pets values('{title}', '{msg}')")
     #   conn.commit()
+
+      flash("Data saved sucessfully..............")
       return redirect("/contact")
 
 

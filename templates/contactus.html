@@ -1,9 +1,12 @@
 {% extends "basefile.html" %}{% block contact %}
 <h1 style="text-align: center; color: #333;">Contact Us</h1>
 <p>Thank you for considering reaching out to us at PetFinder! We're here to assist you in any way we can. Please fill out the form below, and we'll get back to you as soon as possible.</p>
-<form action="/savedata" method="POST" style="margin-top: 20px;">
+<form action="/savedata" method="POST" style="margin-top: 20px;" enctype="multipart/form-data">
     <label for="name" style="display: block; margin-bottom: 5px; font-weight: bold;">Title:</label>
     <input type="text" id="name" name="title" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+
+    <label for="img" style="display: block; margin-bottom: 5px; font-weight: bold;">IMAGE:</label>
+    <input type="file" id="name" name="img" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
 
     <label for="message" style="display: block; margin-bottom: 5px; font-weight: bold;">Message:</label>
     <textarea id="message" name="msg" rows="4" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
